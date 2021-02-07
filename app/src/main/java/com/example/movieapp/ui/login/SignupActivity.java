@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ public class SignupActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText email, password;
     private Button signUpButton;
+    private static final String TAG = "SignUpActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,17 +84,17 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(),"Registration successful!", Toast.LENGTH_LONG).show();
-
-                            System.out.println("Success");
+                            Toast.makeText(SignupActivity.this, "Registration successful!", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "createUserWithEmail:success");
 
                             Intent goToHome = new Intent(SignupActivity.this, HomeActivity.class);
                             startActivity(goToHome);
 
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Registration failed!!", Toast.LENGTH_LONG).show();
+                            //FirebaseUser user = mAuth.getCurrentUser();
 
-                            System.out.println("Failed");
+                        } else {
+                            Toast.makeText(SignupActivity.this, "Registration failed!!", Toast.LENGTH_LONG).show();
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
                         }
                     }
                 });
